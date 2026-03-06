@@ -7,11 +7,11 @@
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg p-6">
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-                    @foreach ($pedidos as $pedido)
+                    @foreach ($produtos as $produto)
                         <div class="border p-4 rounded shadow-sm">
-                            <h3 class="font-bold text-lg">{{ $pedido->nome }}</h3>
-                            <p class="text-sm text-gray-600">Autor: {{ $pedido->cpf }}</p>
-                            <p class="mt-2 text-blue-600 font-bold">R$ {{ $pedido->telefone }}</p>
+                            <h3 class="font-bold text-lg">{{ $produto->nome }}</h3>
+                            <p class="text-sm text-gray-600">Autor: {{ $produto->cpf }}</p>
+                            <p class="mt-2 text-blue-600 font-bold">R$ {{ $produto->telefone }}</p>
                         </div>
                     @endforeach
                 </div>

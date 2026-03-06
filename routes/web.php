@@ -1,14 +1,21 @@
 <?php
-
+use App\Http\Controllers\EstoqueController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ClientesController;
+use App\Http\Controllers\FornecedoresController;
+use App\Http\Controllers\PedidosController;
+use App\Http\Controllers\ProdutosController;
 
 Route::get('/', function () {
     return view('welcome');
 });
 
 Route::get('/clientes', [ClientesController::class, 'index'])->name('clientes.index');
+Route::get('/fornecedores', [FornecedoresController::class, 'index'])->name('fornecedores.index');
+Route::get('/pedidos', [PedidosController::class, 'index'])->name('pedidos.index');
+Route::get('/produtos', [ProdutosController::class, 'index'])->name('produtos.index');
+Route::get('/estoque', [EstoqueController::class, 'index'])->name('estoque.index');
 
 Route::get('/dashboard', function () {
     return view('dashboard');
