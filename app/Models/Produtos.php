@@ -1,6 +1,5 @@
 <?php
 
-
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
@@ -9,12 +8,16 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 class Produtos extends Model
 {
     use HasFactory;
-protected $fillable = [
-    'nome',
-    'cpf',
-    'telefone',
-    'valor_total',
-    'status',
-    'observacoes',
-];
+
+    protected $fillable = [
+        'nome',
+        'codigo',
+        'descricao',
+        'categoria',
+        'preco',
+        'estoque_minimo',
+        'unidade',
+        'status',
+        'observacoes',
+    ];
 }

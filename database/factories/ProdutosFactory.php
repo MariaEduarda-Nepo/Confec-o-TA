@@ -9,19 +9,18 @@ use Illuminate\Database\Eloquent\Factories\Factory;
  */
 class ProdutosFactory extends Factory
 {
-    /**
-     * Define the model's default state.
-     *
-     * @return array<string, mixed>
-     */
     public function definition(): array
     {
         return [
-        'numero_pedido' => $this->faker->unique()->numerify('PED-####'),
-        'data_pedido' => $this->faker->dateTime(),
-        'valor_total' => $this->faker->randomFloat(2, 100, 10000),
-        'status' => $this->faker->randomElement(['pendente', 'processando', 'concluído', 'cancelado']),
-        'observacoes' => $this->faker->optional()->sentence(),
+            'nome'           => $this->faker->words(3, true),
+            'codigo'         => strtoupper($this->faker->unique()->bothify('PROD-####')),
+            'descricao'      => $this->faker->sentence(),
+            'categoria'      => $this->faker->randomElement(['Eletrônicos', 'Alimentos', 'Vestuário', 'Ferramentas', 'Limpeza']),
+            'preco'          => $this->faker->randomFloat(2, 5, 5000),
+            'estoque_minimo' => $this->faker->numberBetween(1, 20),
+            'unidade'        => $this->faker->randomElement(['un', 'kg', 'l', 'cx', 'm']),
+            'status'         => $this->faker->randomElement(['ativo', 'inativo']),
+            'observacoes'    => $this->faker->optional()->sentence(),
         ];
     }
 }
