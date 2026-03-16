@@ -43,10 +43,11 @@ class FornecedoresController extends Controller
         return view('fornecedores.show', ['fornecedor' => $fornecedore]);
     }
 
-    public function edit(Fornecedores $fornecedore)
-    {
-        return view('fornecedores.edit', ['fornecedor' => $fornecedore]);
-    }
+   // Trocar em show(), edit(), update() e destroy():
+public function edit(Fornecedores $fornecedor)   // era $fornecedore
+{
+    return view('fornecedores.edit', compact('fornecedor'));
+}
 
     public function update(Request $request, Fornecedores $fornecedore)
     {

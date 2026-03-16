@@ -1,74 +1,101 @@
-{{-- resources/views/estoques/edit.blade.php --}}
 <x-app-layout>
     <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ __('Editar Item do Estoque') }}
-        </h2>
+        <div class="flex items-center gap-3">
+            <a href="{{ route('estoques.index') }}" class="w-8 h-8 flex items-center justify-center rounded-full bg-gray-100 hover:bg-gray-200 transition text-gray-500">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>
+            </a>
+            <div>
+                <p class="text-xs font-semibold uppercase tracking-[0.2em] text-teal-500">Estoque</p>
+                <h2 class="text-2xl font-bold text-gray-900" style="font-family:'Playfair Display',serif;">Editar Item</h2>
+            </div>
+        </div>
     </x-slot>
 
-    <div class="py-12">
-        <div class="max-w-3xl mx-auto sm:px-6 lg:px-8">
-            <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg p-6">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <style>
+        body,.dm{font-family:'DM Sans',sans-serif;}
+        .form-wrap{animation:slideUp 0.45s cubic-bezier(.16,1,.3,1) both;}
+        @keyframes slideUp{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:translateY(0)}}
+        .field-group{position:relative;}
+        .field-input{width:100%;padding:.75rem 1rem .75rem 2.75rem;border:1.5px solid #e5e7eb;border-radius:.875rem;font-size:.875rem;font-family:'DM Sans',sans-serif;color:#111827;background:#fafafa;transition:border-color .2s,box-shadow .2s,background .2s;outline:none;}
+        .field-input:focus{border-color:#14b8a6;background:#fff;box-shadow:0 0 0 4px rgba(20,184,166,.08);}
+        .field-input::placeholder{color:#9ca3af;}
+        .field-icon{position:absolute;left:.875rem;top:50%;transform:translateY(-50%);color:#9ca3af;pointer-events:none;transition:color .2s;}
+        .field-group:focus-within .field-icon{color:#14b8a6;}
+        .field-label{display:block;font-size:.75rem;font-weight:600;text-transform:uppercase;letter-spacing:.08em;color:#6b7280;margin-bottom:.375rem;}
+        .section-divider{display:flex;align-items:center;gap:.75rem;margin:.25rem 0;}
+        .section-divider span{font-size:.65rem;font-weight:700;text-transform:uppercase;letter-spacing:.15em;color:#d1d5db;white-space:nowrap;}
+        .section-divider::before,.section-divider::after{content:'';flex:1;height:1px;background:#f3f4f6;}
+        textarea.field-input{padding-top:.75rem;resize:none;}
+        .textarea-icon{top:1rem;transform:none;}
+    </style>
 
-                <form action="{{ route('estoques.update', $estoque->id) }}" method="POST">
-                    @csrf
-                    @method('PUT')
+    <div class="py-10 dm">
+        <div class="max-w-2xl mx-auto sm:px-6 lg:px-8">
 
-                    {{-- Nome --}}
-                    <div class="mb-4">
-                        <label class="block text-gray-700 font-semibold mb-1" for="nome">Nome *</label>
-                        <input type="text" name="nome" id="nome"
-                               value="{{ old('nome', $estoque->nome) }}"
-                               class="w-full border rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400 @error('nome') border-red-500 @enderror">
-                        @error('nome')
-                            <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
-                        @enderror
-                    </div>
+            <div class="form-wrap flex items-center gap-3 px-1 mb-4">
+                <div class="w-9 h-9 bg-teal-600 rounded-xl flex items-center justify-center">
+                    <svg class="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"/></svg>
+                </div>
+                <div>
+                    <p class="text-sm font-semibold text-gray-800">{{ $estoque->nome }}</p>
+                    <p class="text-xs text-gray-400">Editando item do estoque</p>
+                </div>
+            </div>
 
-                    {{-- Descrição --}}
-                    <div class="mb-4">
-                        <label class="block text-gray-700 font-semibold mb-1" for="descricao">Descrição</label>
-                        <textarea name="descricao" id="descricao" rows="3"
-                                  class="w-full border rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400 @error('descricao') border-red-500 @enderror">{{ old('descricao', $estoque->descricao) }}</textarea>
-                        @error('descricao')
-                            <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
-                        @enderror
-                    </div>
+            <div class="form-wrap bg-white rounded-3xl shadow-sm border border-gray-100 overflow-hidden" style="animation-delay:.05s">
+                <div class="h-1.5 bg-gradient-to-r from-teal-400 to-cyan-400"></div>
+                <div class="p-8">
+                    <form action="{{ route('estoques.update', $estoque->id) }}" method="POST" class="space-y-5">
+                        @csrf @method('PUT')
 
-                    {{-- Quantidade --}}
-                    <div class="mb-4">
-                        <label class="block text-gray-700 font-semibold mb-1" for="quantidade">Quantidade *</label>
-                        <input type="number" name="quantidade" id="quantidade" min="0"
-                               value="{{ old('quantidade', $estoque->quantidade) }}"
-                               class="w-full border rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400 @error('quantidade') border-red-500 @enderror">
-                        @error('quantidade')
-                            <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
-                        @enderror
-                    </div>
+                        <div>
+                            <label class="field-label">Nome do Item</label>
+                            <div class="field-group">
+                                <div class="field-icon"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"/></svg></div>
+                                <input type="text" name="nome" value="{{ old('nome', $estoque->nome) }}" class="field-input" required>
+                            </div>
+                            @error('nome')<p class="mt-1.5 text-xs text-red-500">{{ $message }}</p>@enderror
+                        </div>
 
-                    {{-- Preço Unitário --}}
-                    <div class="mb-6">
-                        <label class="block text-gray-700 font-semibold mb-1" for="preco_unitario">Preço Unitário (R$) *</label>
-                        <input type="number" name="preco_unitario" id="preco_unitario" step="0.01" min="0"
-                               value="{{ old('preco_unitario', $estoque->preco_unitario) }}"
-                               class="w-full border rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400 @error('preco_unitario') border-red-500 @enderror">
-                        @error('preco_unitario')
-                            <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
-                        @enderror
-                    </div>
+                        <div>
+                            <label class="field-label">Descrição</label>
+                            <div class="field-group">
+                                <div class="field-icon textarea-icon"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h7"/></svg></div>
+                                <textarea name="descricao" class="field-input" rows="3">{{ old('descricao', $estoque->descricao) }}</textarea>
+                            </div>
+                        </div>
 
-                    <div class="flex gap-3">
-                        <button type="submit"
-                                class="bg-yellow-500 hover:bg-yellow-600 text-white font-bold py-2 px-6 rounded">
-                            Atualizar
-                        </button>
-                        <a href="{{ route('estoques.index') }}"
-                           class="bg-gray-200 hover:bg-gray-300 text-gray-700 font-bold py-2 px-6 rounded">
-                            Cancelar
-                        </a>
-                    </div>
-                </form>
+                        <div class="section-divider"><span>Quantidade & Valor</span></div>
 
+                        <div class="grid grid-cols-2 gap-4">
+                            <div>
+                                <label class="field-label">Quantidade</label>
+                                <div class="field-group">
+                                    <div class="field-icon"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 20l4-16m2 16l4-16M6 9h14M4 15h14"/></svg></div>
+                                    <input type="number" name="quantidade" value="{{ old('quantidade', $estoque->quantidade) }}" class="field-input" min="0" required>
+                                </div>
+                                @error('quantidade')<p class="mt-1.5 text-xs text-red-500">{{ $message }}</p>@enderror
+                            </div>
+                            <div>
+                                <label class="field-label">Preço Unitário (R$)</label>
+                                <div class="field-group">
+                                    <div class="field-icon"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg></div>
+                                    <input type="number" name="preco_unitario" value="{{ old('preco_unitario', $estoque->preco_unitario) }}" class="field-input" step="0.01" min="0" required>
+                                </div>
+                                @error('preco_unitario')<p class="mt-1.5 text-xs text-red-500">{{ $message }}</p>@enderror
+                            </div>
+                        </div>
+
+                        <div class="flex items-center justify-between pt-2">
+                            <a href="{{ route('estoques.index') }}" class="text-sm text-gray-400 hover:text-gray-600 font-medium transition">← Cancelar</a>
+                            <button type="submit" class="inline-flex items-center gap-2 px-6 py-2.5 bg-teal-600 text-white text-sm font-semibold rounded-full hover:bg-teal-700 transition-all duration-300 shadow-md hover:shadow-teal-200 active:scale-95">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12"/></svg>
+                                Atualizar Item
+                            </button>
+                        </div>
+                    </form>
+                </div>
             </div>
         </div>
     </div>
